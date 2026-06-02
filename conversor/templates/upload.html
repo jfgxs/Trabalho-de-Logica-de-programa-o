@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Conversor PDF para TXT</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+<body class="bg-light">
+
+    <div class="container mt-5">
+        <div class="card shadow-lg p-4 mx-auto" style="max-width: 600px;">
+            <h1 class="text-center mb-4">📄 Conversor PDF para TXT</h1>
+
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="mb-3 text-center">
+
+                    <label for="pdf-upload" class="btn-upload">
+                        📄 Escolher PDF
+                    </label>
+
+                    <input
+                        type="file"
+                        id="pdf-upload"
+                        name="pdf"
+                       accept=".pdf"
+                        hidden
+                        required
+                    >
+
+                    <p id="nome-arquivo" class="mt-2 text-white">
+                        Nenhum arquivo selecionado
+                    </p>
+
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">
+                    Converter Arquivo
+                </button>
+            </form>
+        </div>
+    </div>
+    <script>
+        document.getElementById('pdf-upload').addEventListener('change', function() {
+            const nome = this.files[0]
+                ? this.files[0].name
+                : 'Nenhum arquivo selecionado';
+
+            document.getElementById('nome-arquivo').textContent = nome;
+        });
+    </script>
+</body>
+</html>
