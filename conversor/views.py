@@ -60,13 +60,3 @@ def upload_pdf(request):
     return render(request, "upload.html", {
         "form": form
     })
-response = HttpResponse(
-    texto_extraido,
-    content_type='text/plain'
-)
-
-response['Content-Disposition'] = (
-    f'attachment; filename="{nome_txt}"'
-)
-
-return response
