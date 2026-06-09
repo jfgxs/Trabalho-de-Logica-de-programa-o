@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.conf import settings
 from django.http import HttpResponse
+from django.http import FileResponse
 from .forms import PDFForm
 from .models import Documento
 import fitz
@@ -47,7 +48,7 @@ def upload_pdf(request):
             with open(caminho_txt, "w", encoding="utf-8") as txt:
                 txt.write(texto_extraido)
 
-            txt_url = f"/media/txts/{nome_txt}"
+            txt_url = f"/baixar/{nome_txt}/"
 
             return render(request, "resultado.html", {
                 "texto": texto_extraido,
@@ -60,3 +61,16 @@ def upload_pdf(request):
     return render(request, "upload.html", {
         "form": form
     })
+
+def baixar_txt(request, nome_txt):
+    caminho = os.path.join(
+        settings.MEDIA_ROOT,
+        "txts",
+        nome_txt
+    )
+
+    return FileResponse(
+        open(caminho, "rb"),
+        as_attachment=True,
+        filename=nome_txt
+    )
